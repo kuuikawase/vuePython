@@ -1,0 +1,6 @@
+{
+    "db_path": "spatest.db",
+    "music_folder": "E:\\python\\mp4",
+    "music_play_status": "E:\\python\\mp4\\music.txt",
+    "music_play_list": "E:\\python\\text.txt"
+}

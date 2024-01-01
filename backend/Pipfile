@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-restful = "*"
+flask-sqlalchemy = "*"
+playsound = "*"
+
+[dev-packages]
+autopep8 = "*"
+flake8 = "*"
+rope = "*"
+
+[requires]
+python_version = "3.7"
+python_full_version = "3.7.8"
+
+[scripts]
+start = "python main.py"
