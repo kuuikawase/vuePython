@@ -1,11 +1,54 @@
 <template>
-  <div class="about">
-    <h1>クリックして、音楽を再生してください。</h1>
-    <el-table class="data-table" :data="tableData" stripe>
-      <el-table-column prop="id" label="ID" width="180"></el-table-column>
-      <el-table-column prop="name" label="名前" width="180"></el-table-column>
-      <el-table-column prop="path" label="Path"></el-table-column>
-    </el-table>
+  <div id="about">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="addScheduleForm">
+      <div style="margin: 10px; padding: 10px; border: solid 1px rgb(150, 138, 189);">
+        <el-form-item class="addSchedule-block">
+          <div>
+              <span>予定のタイトル入力欄</span>
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 1, maxRows: 4 }"
+                placeholder="ここに入力できます。"
+                v-model="title_text">
+              </el-input>
+          </div>
+        </el-form-item>
+          
+        <el-form-item class="addSchedule-block">
+          <div class="block">
+            <span>備考</span>
+            <el-input
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4 }"
+              placeholder="ここに入力できます。"
+              v-model="description_text">
+            </el-input>
+          </div>
+        </el-form-item>
+          
+        <el-form-item class="addSchedule-block">
+          <div class="block">
+            <span style="margin-right: 20px;">日時期間</span>
+            <el-date-picker
+              v-model="dayValues"
+              type="datetimerange"
+              range-separator="～"
+              start-placeholder="開始"
+              end-placeholder="終了"
+              align="right"
+              :default-time="['00:00:00', '23:59:59']">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+          {{ dayValues[0] }}
+        <el-form-item class="addSchedule-block">
+          <el-row>
+            <el-button type="primary" plain>追加</el-button>
+            <el-button type="danger" plain>リセット</el-button>
+          </el-row>
+        </el-form-item>
+      </div>
+    </el-form>
   </div>
 </template>
 
@@ -15,7 +58,10 @@ export default {
   name: 'about-test',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      dayValues: '',
+      description_text: '',
+      title_text: '',
     }
   },
   mounted() {
@@ -31,8 +77,13 @@ export default {
 </script>
 
 <style scoped>
-.data-table {
-  width: 80%;
-  margin: auto;
+.addScheduleForm {
+  width: 800px;
+}
+
+</style>
+<style>
+.addSchedule-block .el-form-item__content{
+  margin: 0 !important;
 }
 </style>
