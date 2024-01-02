@@ -2,9 +2,9 @@
   <div id="app">
     <el-menu :default-active="activeIndex" mode="horizontal" router>
       <el-menu-item index="home" :route="{ name:'home' }">Music</el-menu-item>
-      <el-menu-item index="about" :route="{ name:'about' }">About</el-menu-item>
+      <el-menu-item index="about" :route="{ name:'about' }">Calendar</el-menu-item>
       <el-menu-item>
-        <a href="https://element.eleme.io" target="_blank">Link</a>
+        <a href="https://element.eleme.io" target="_blank">UI_Link</a>
       </el-menu-item>
     </el-menu>
     <router-view />

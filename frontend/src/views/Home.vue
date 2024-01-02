@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>クリックして、音楽を再生してください。</h1>
+    <h1>クリックで音楽を再生します。</h1>
 
     <el-row class="grid_row" :gutter="12" v-for="(tableData, index) in grouped_array" :key="index">
       <el-col :span="8" v-for="data in tableData" :key="data.id">
