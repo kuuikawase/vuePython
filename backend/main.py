@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
 from music import *
-from music_location import get_all, insert_search_all
+import music_location
+from shedule import *
 
 app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myspa.db'
-app.register_blueprint(api_bp)
+app.register_blueprint(api_music_bp)
+app.register_blueprint(api_schedule_bp)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -19,6 +21,15 @@ def click_music():
     play_music(request)
     return render_template('index.html')
 
+@app.route('/scadule/add', methods=['POST'])
+def click_add_schedule():
+    print("test")
+    print(request)
+    print(request.form)
+    add_schedule(request)
+    return render_template('index.html')
+
+
 if __name__ == '__main__':
-    insert_search_all()
+    music_location.insert_search_all()
     app.run()

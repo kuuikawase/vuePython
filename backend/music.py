@@ -2,13 +2,13 @@ from flask import Blueprint
 from flask_restful import Api, Resource
 import music_location
 
-api_bp = Blueprint('music', __name__, url_prefix='/music')
+api_music_bp = Blueprint('music', __name__, url_prefix='/music')
 
 class Music_Location(Resource):
     def get(self):
         return [{'id': x[0], 'musicname': x[1], 'path': x[2]} for x in music_location.get_all()]
 
-api = Api(api_bp)
+api = Api(api_music_bp)
 api.add_resource(Music_Location, '/location')
 
 import propertiesUtil

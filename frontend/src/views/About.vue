@@ -1,7 +1,9 @@
 <template>
   <div id="about">
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="addScheduleForm">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="addScheduleForm" label-width="120px" class="addScheduleForm">
       <div style="margin: 10px; padding: 10px; border: solid 1px rgb(150, 138, 189);">
+        <h1>グーグルカレンダー</h1>
+        <h3>・予定を追加</h3>
         <el-form-item class="addSchedule-block">
           <div>
               <span>予定のタイトル入力欄</span>
@@ -9,7 +11,7 @@
                 type="textarea"
                 :autosize="{ minRows: 1, maxRows: 4 }"
                 placeholder="ここに入力できます。"
-                v-model="title_text">
+                v-model="addScheduleForm.title_text">
               </el-input>
           </div>
         </el-form-item>
@@ -21,7 +23,7 @@
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 4 }"
               placeholder="ここに入力できます。"
-              v-model="description_text">
+              v-model="addScheduleForm.description_text">
             </el-input>
           </div>
         </el-form-item>
@@ -30,7 +32,7 @@
           <div class="block">
             <span style="margin-right: 20px;">日時期間</span>
             <el-date-picker
-              v-model="dayValues"
+              v-model="addScheduleForm.dayValues"
               type="datetimerange"
               range-separator="～"
               start-placeholder="開始"
@@ -40,11 +42,10 @@
             </el-date-picker>
           </div>
         </el-form-item>
-          {{ dayValues[0] }}
         <el-form-item class="addSchedule-block">
           <el-row>
-            <el-button type="primary" plain>追加</el-button>
-            <el-button type="danger" plain>リセット</el-button>
+            <el-button @click="submitForm" type="success" plain>追加</el-button>
+            <el-button @click="resetForm" type="danger" plain>リセット</el-button>
           </el-row>
         </el-form-item>
       </div>
@@ -57,20 +58,60 @@ const axios = require('axios').create()
 export default {
   name: 'about-test',
   data() {
+    var validate = function(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('入力してください。'));
+      } else {
+        callback();
+      }
+    };
     return {
       tableData: [],
-      dayValues: '',
-      description_text: '',
-      title_text: '',
+      addScheduleForm: {
+        title_text: '',
+        description_text: '',
+        dayValues: ''
+      },
+      rules: {
+        title_text: [
+          { validator: validate, trigger: 'blur' }
+        ],
+        description_text: [
+          { validator: validate, trigger: 'blur' }
+        ],
+        dayValues: [
+          { validator: validate, trigger: 'blur' }
+        ]
+      }
     }
   },
   mounted() {
-    this.updataTableData()
+    
   },
   methods: {
-    updataTableData: async function () {
-      const response = await axios.get('/music/location')
-      this.tableData = response.data
+    submitForm: async function() {
+      console.log(this.addScheduleForm)
+      // print(this.axios)
+      var params = new FormData()
+      params.append("title_text", this.addScheduleForm.title_text)
+      params.append("description_text", this.addScheduleForm.description_text)
+      params.append("start_date", [this.addScheduleForm.dayValues[0].getFullYear(), this.addScheduleForm.dayValues[0].getMonth() + 1, this.addScheduleForm.dayValues[0].getDate(), this.addScheduleForm.dayValues[0].getHours(), this.addScheduleForm.dayValues[0].getMinutes(), this.addScheduleForm.dayValues[0].getSeconds()] )
+      params.append("end_date", [this.addScheduleForm.dayValues[1].getFullYear(), this.addScheduleForm.dayValues[1].getMonth() + 1, this.addScheduleForm.dayValues[1].getDate(), this.addScheduleForm.dayValues[1].getHours(), this.addScheduleForm.dayValues[1].getMinutes(), this.addScheduleForm.dayValues[1].getSeconds()])
+      axios.post('/scadule/add', params)
+        .then(function (response) {
+          console.log('Create axios response')
+          console.log(response)
+        })
+        .catch(err => {
+          console.log('Create axios error')
+          console.log(err)
+        })
+
+    },
+    resetForm: async function () {
+      this.addScheduleForm.title_text = '';
+      this.addScheduleForm.description_text = '';
+      this.addScheduleForm.dayValues = '';
     }
   }
 }
@@ -80,7 +121,6 @@ export default {
 .addScheduleForm {
   width: 800px;
 }
-
 </style>
 <style>
 .addSchedule-block .el-form-item__content{
