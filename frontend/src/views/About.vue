@@ -50,6 +50,34 @@
         </el-form-item>
       </div>
     </el-form>
+    <!--
+    <div>
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="addScheduleForm" label-width="120px" class="addScheduleForm">
+      <div v-for="(data, index) in tableData" :key="index">
+        <el-input
+          placeholder="Please input"
+          v-model="tableData[data].summary"
+          clearable>
+        </el-input>
+        <el-input
+          placeholder="Please input"
+          v-model="tableData[data].description"
+          clearable>
+        </el-input>
+        <el-input
+          placeholder="Please input"
+          v-model="tableData[data].start_date"
+          clearable>
+        </el-input>
+        <el-input
+          placeholder="Please input"
+          v-model="tableData[data].end_data"
+          clearable>
+        </el-input>
+      </div>
+      </el-form>
+    </div>
+    -->
   </div>
 </template>
 
@@ -67,6 +95,11 @@ export default {
     };
     return {
       tableData: [],
+      updataScheduleForm: {
+        title: '',
+        description: '',
+        startData:''
+      },
       addScheduleForm: {
         title_text: '',
         description_text: '',
@@ -86,9 +119,13 @@ export default {
     }
   },
   mounted() {
-    
+    this.updataTableData()
   },
   methods: {
+    updataTableData: async function () {
+      const response = await axios.get('/schedule/task')
+      this.tableData = response.data
+    },
     submitForm: async function() {
       console.log(this.addScheduleForm)
       // print(this.axios)
@@ -120,6 +157,7 @@ export default {
 <style scoped>
 .addScheduleForm {
   width: 800px;
+  float: left;
 }
 </style>
 <style>

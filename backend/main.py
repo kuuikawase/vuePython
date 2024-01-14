@@ -21,6 +21,12 @@ def click_music():
     play_music(request)
     return render_template('index.html')
 
+@app.route('/music/stop', methods=['POST'])
+def request_stop_music():
+    print("test")
+    stop_music()
+    return render_template('index.html')
+
 @app.route('/scadule/add', methods=['POST'])
 def click_add_schedule():
     print("test")

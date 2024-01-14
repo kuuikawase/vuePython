@@ -20,7 +20,7 @@ def add_schedule(request):
     return
 
 
-api_bp = Blueprint('schedule', __name__, url_prefix='/schedule')
+api_schedule_bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 class Schedule_Task(Resource):
     def get(self):
@@ -28,5 +28,5 @@ class Schedule_Task(Resource):
             'start_date': x[2], 'end_date': x[3],\
             'summary': x[4], 'description': x[5]} for x in schedule_db.get_all()]
 
-api = Api(api_bp)
-api.add_resource(Music_Location, '/task')
+api = Api(api_schedule_bp)
+api.add_resource(Schedule_Task, '/task')

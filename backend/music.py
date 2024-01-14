@@ -26,6 +26,10 @@ def stop_music():
     with open(PLAY_STATUS_FILE, mode='w', encoding="utf-8") as f:
         f.write(BREAK)
 
+def check_music():
+    with open(PLAY_STATUS_FILE, mode='r', encoding="utf-8") as f:
+        flg = f.read()
+    return True if flg == "now" else False
 
 def play_music(request):
     path = request.form['path']
